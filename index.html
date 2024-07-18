@@ -3106,8 +3106,10 @@ vertical-align: -.125em;
 </header>
 
 
+<section id="week-one" class="level2">
+<h2 class="anchored" data-anchor-id="week-one">Week One</h2>
 <p>Load and prepare the NACC data for analysis, ensuring all necessary columns are included</p>
-<div id="7305224b" class="cell" data-execution_count="1">
+<div id="d3828ef5" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tableone <span class="im">import</span> TableOne</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3221,7 +3223,7 @@ vertical-align: -.125em;
 </div>
 </div>
 <p>Sample size</p>
-<div id="6dc981db" class="cell" data-execution_count="2">
+<div id="f046dc82" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>participantNum <span class="op">=</span> <span class="bu">int</span>(df_analysis.shape[<span class="dv">0</span>])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>bothBatteries <span class="op">=</span> df_analysis.dropna(subset<span class="op">=</span>[<span class="st">&#39;NACCMOCA&#39;</span>, <span class="st">&#39;NACCMMSE&#39;</span>]).shape[<span class="dv">0</span>]</span>
@@ -3299,7 +3301,7 @@ vertical-align: -.125em;
 <li><p><strong>MMSE</strong>: Unimpaired (≥ 24), MCI (&lt; 24)</p></li>
 <li><p><strong>Derived MoCA</strong>: Unimpaired (≥ 26), MCI (&lt; 26)</p></li>
 </ul>
-<div id="31194dec" class="cell" data-execution_count="3">
+<div id="bbfbc943" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df_analysis.loc[:, <span class="st">&#39;Impairment_MoCA&#39;</span>] <span class="op">=</span> df_analysis[<span class="st">&#39;NACCMOCA&#39;</span>].<span class="bu">apply</span>(</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">lambda</span> x: <span class="st">&#39;Unimpaired&#39;</span> <span class="cf">if</span> x <span class="op">&gt;=</span> <span class="dv">26</span> <span class="cf">else</span> (<span class="st">&#39;MCI&#39;</span> <span class="cf">if</span> pd.notna(x) <span class="cf">else</span> x)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
@@ -3316,7 +3318,7 @@ vertical-align: -.125em;
 </div>
 <p>Determine a unified survey recorded impairment (SRI) score for each row by using the MoCA score if available, otherwise using the MMSE score.</p>
 <p>This process ensures that each row is assigned a single impairment classification.</p>
-<div id="9c71b507" class="cell" data-execution_count="4">
+<div id="e396259c" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Priority 1. MoCA 2. MMSE</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sri(row):</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.notna(row[<span class="st">&#39;Impairment_MoCA&#39;</span>]):</span>
@@ -3425,9 +3427,10 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
+</section>
 <section id="saving-this-for-dichotomous-variables-table-1" class="level1">
 <h1>Saving this for dichotomous variables — table 1</h1>
-<div id="8115ac58" class="cell" data-execution_count="5">
+<div id="f58ed72a" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Priority 1. MoCA 2. derived MoCA</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_sri_with_rescores(row):</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> pd.notna(row[<span class="st">&#39;Impairment_MoCA&#39;</span>]):</span>
@@ -3442,7 +3445,7 @@ vertical-align: -.125em;
 <p><strong>Table #1 Results</strong></p>
 <p>Prepare the data by filtering out certain clinical diagnoses and consolidating the remaining clinical diagnoses into simplified categories: Unimpaired, MCI, Unknown.</p>
 <p>Then, compare these simplified clinical diagnoses with the survey recorded impairment to analyze the agreement between clinical diagnoses and survey results.</p>
-<div id="2d545b8b" class="cell" data-execution_count="6">
+<div id="deb3e5e2" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the DataFrame to exclude rows where Clinical Diagnosis is &#39;Impaired-not-MCI&#39;</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>filt <span class="op">=</span> df_analysis[<span class="st">&#39;NACCUDSD&#39;</span>] <span class="op">!=</span> <span class="st">&#39;Impaired-not-MCI&#39;</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>df_filtered <span class="op">=</span> df_analysis.loc[filt].copy().reset_index(drop<span class="op">=</span><span class="va">True</span>)</span>
@@ -3505,7 +3508,7 @@ vertical-align: -.125em;
 </div>
 </div>
 </div>
-<div id="c462ae9a" class="cell" data-execution_count="7">
+<div id="fc410c72" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make a copy of this variable for use for the optimal cutpoints</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>cutpointAnalysisMMSE <span class="op">=</span> df_filtered.loc[:, [<span class="st">&quot;Clinical_Diagnosis-Simplified&quot;</span>, <span class="st">&quot;NACCMMSE&quot;</span>]].copy()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>cutpointAnalysisMOCA <span class="op">=</span> df_filtered.loc[:, [<span class="st">&quot;Clinical_Diagnosis-Simplified&quot;</span>, <span class="st">&quot;NACCMOCA&quot;</span>]].copy()</span>
@@ -3517,7 +3520,7 @@ vertical-align: -.125em;
 <p><strong>Table #2 Results</strong></p>
 <p>Calculate the new unified SRI score using NACCMOCA_est (MoCA score derived from MMSE) and NACCMOCA (MoCA score).</p>
 <p>This process ensures that each row is assigned a single impairment classification.</p>
-<div id="a1684caf" class="cell" data-execution_count="8">
+<div id="26123065" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clean it up</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>df_filtered <span class="op">=</span> df_filtered.loc[:, [<span class="st">&quot;Impairment_MoCA&quot;</span>, <span class="st">&quot;Impairment_Derived-MoCA&quot;</span>, <span class="st">&quot;Clinical_Diagnosis-Simplified&quot;</span>,<span class="st">&quot;NACCMOCA_est&quot;</span>]]</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3620,7 +3623,7 @@ vertical-align: -.125em;
 </div>
 </div>
 <p>Comparing “new-SRI” (newly-calculated SRI) with “Clinical_Diagnosis-Simplified” (patient’s corresponding clinical diagnosis).</p>
-<div id="3866d985" class="cell" data-execution_count="9">
+<div id="fe826787" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cross_tab <span class="op">=</span> pd.crosstab(index<span class="op">=</span>df_filtered[<span class="st">&#39;new-SRI&#39;</span>], </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                        columns<span class="op">=</span>df_filtered[<span class="st">&#39;Clinical_Diagnosis-Simplified&#39;</span>],</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                        rownames<span class="op">=</span>[<span class="st">&#39;Survey&#39;</span>],</span>
@@ -3665,7 +3668,7 @@ vertical-align: -.125em;
 <h1>Accuracy analysis</h1>
 <p><strong>Calculated accuracy for Table 1</strong>: 69.44%</p>
 <p><strong>Calculated accuracy for Table 2</strong>: 79.44%</p>
-<div id="3f72e762" class="cell" data-execution_count="10">
+<div id="a012bebb" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>nacc_df_clean <span class="op">=</span> nacc_df.copy()</span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are using the calculated SRI score derived from the combination of the cognitive scores from MoCA and MMSE</span></span>
@@ -3849,7 +3852,7 @@ vertical-align: -.125em;
 </div>
 </div>
 <p>Determine the optimal cutpoint of MMSE scores using some built in packages; gold standard: clinical diagnosis</p>
-<div id="c141649b" class="cell" data-execution_count="11">
+<div id="87e43c27" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> roc_curve, auc</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -3886,7 +3889,7 @@ Optimal MMSE cutoff: 27.0</code></pre>
 </div>
 <p><strong>Calculated accuracy for New Cutoff for table</strong>: 77.56%</p>
 <p>Determine the optimal cutpoint of MoCA scores using some built in packages; gold standard: clinical diagnosis</p>
-<div id="f9620013" class="cell" data-execution_count="12">
+<div id="a1aae435" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Assuming &#39;cutpointAnalysisMOCA&#39; is your DataFrame with the necessary columns.</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Ensure the clinical diagnosis is binary coded</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>cutpointAnalysisMOCA[<span class="st">&#39;Clinical_Diagnosis_Binary&#39;</span>] <span class="op">=</span> cutpointAnalysisMOCA[<span class="st">&#39;Clinical_Diagnosis-Simplified&#39;</span>].<span class="bu">map</span>({</span>
@@ -3918,10 +3921,9 @@ Optimal MMSE cutoff: 27.0</code></pre>
 Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
-</section>
-<section id="week-2" class="level1">
-<h1>Week 2</h1>
-<div id="8a33fb29" class="cell" data-execution_count="13">
+<section id="week-two" class="level2">
+<h2 class="anchored" data-anchor-id="week-two">Week Two</h2>
+<div id="8b888528" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>df_sleep_analysis <span class="op">=</span> nacc_df[[<span class="st">&quot;APNEA&quot;</span>,<span class="st">&quot;RBD&quot;</span>,<span class="st">&quot;INSOMN&quot;</span>,<span class="st">&quot;OTHSLEEP&quot;</span>]].copy()</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns for readability</span></span>
@@ -4002,7 +4004,7 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </div>
-<div id="045a9a17" class="cell" data-execution_count="14">
+<div id="ecf13b80" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>df_cvd_analysis <span class="op">=</span> nacc_df[[<span class="st">&quot;HYPERTEN&quot;</span>, <span class="st">&quot;CBSTROKE&quot;</span>, <span class="st">&quot;CVHATT&quot;</span>, <span class="st">&quot;CVAFIB&quot;</span>, <span class="st">&quot;CVANGIO&quot;</span>, <span class="st">&quot;CVBYPASS&quot;</span>, <span class="st">&quot;CVPACDEF&quot;</span>, <span class="st">&quot;CVPACE&quot;</span>, <span class="st">&quot;CVCHF&quot;</span>, <span class="st">&quot;CVANGINA&quot;</span>, <span class="st">&quot;CVHVALVE&quot;</span>, <span class="st">&quot;CVOTHR&quot;</span>]].copy()</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns for readability</span></span>
@@ -4145,9 +4147,10 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </section>
+</section>
 <section id="create-a-table-2-of-cognitive-function-unimpaired-versus-mci-as-columns-by-these-sleep-and-cvd-variables-along-with-mean-systolic-and-diastolic-bp" class="level1">
 <h1>Create a “Table 2” of Cognitive Function (Unimpaired versus MCI as columns) by these sleep and CVD variables, along with mean systolic and diastolic BP</h1>
-<div id="0cac1244" class="cell" data-execution_count="15">
+<div id="c11e0e71" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>nacc_df_clean2 <span class="op">=</span> nacc_df.copy()</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are using the calculated SRI score derived from the combination of the cognitive scores from MoCA and MMSE</span></span>
@@ -4797,7 +4800,8 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </table>
 </div>
 </div>
-<div id="cd00eccd" class="cell" data-execution_count="16">
+<p>Making a boxplot looking at cognitive impairment, blood pressure and heart disease status</p>
+<div id="fbc5c50e" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -4862,7 +4866,10 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </div>
-<div id="55e81c97" class="cell" data-execution_count="17">
+<section id="week-three" class="level2">
+<h2 class="anchored" data-anchor-id="week-three">Week Three</h2>
+<p>Creating a table with the percent of indivudals with each of the cardiovascular indicator variables</p>
+<div id="617561fc" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>df_cvd_analysis <span class="op">=</span> nacc_df[[<span class="st">&quot;CVAFIB&quot;</span>, <span class="st">&quot;CVANGIO&quot;</span>, <span class="st">&quot;CVBYPASS&quot;</span>, <span class="st">&quot;CVPACDEF&quot;</span>, <span class="st">&quot;CVCHF&quot;</span>, <span class="st">&quot;CVANGINA&quot;</span>, <span class="st">&quot;CVHVALVE&quot;</span>, <span class="st">&quot;CVOTHR&quot;</span>]].copy()</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Rename columns for readability</span></span>
@@ -4972,10 +4979,8 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </div>
-</section>
-<section id="creating-dichotomous-variables-for-cvd" class="level1">
-<h1>Creating dichotomous variables for CVD</h1>
-<div id="527fc300" class="cell" data-execution_count="18">
+<p>We create the CVD dichotomous variable using subvariables: heart disease variables, hypertension, and stroke</p>
+<div id="9c384114" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_cvd(row):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store the status of each condition</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    conditions <span class="op">=</span> [row[<span class="st">&#39;CVAFIB&#39;</span>], row[<span class="st">&#39;CVANGIO&#39;</span>], row[<span class="st">&#39;CVBYPASS&#39;</span>], row[<span class="st">&#39;CVPACDEF&#39;</span>], row[<span class="st">&#39;CVCHF&#39;</span>], row[<span class="st">&#39;CVANGINA&#39;</span>], row[<span class="st">&#39;CVHVALVE&#39;</span>], row[<span class="st">&#39;CVOTHR&#39;</span>], row[<span class="st">&#39;CBSTROKE&#39;</span>], row[<span class="st">&#39;HYPERTEN&#39;</span>]]</span>
@@ -4993,10 +4998,8 @@ Optimal MoCA cutoff: 23.0</code></pre>
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to create a new column</span></span>
 <span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>HasCardiovascularDisease <span class="op">=</span> nacc_df.<span class="bu">apply</span>(has_cvd, axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-</section>
-<section id="creating-dichotomous-variables-for-sleep" class="level1">
-<h1>Creating dichotomous variables for sleep</h1>
-<div id="5dff5944" class="cell" data-execution_count="19">
+<p>We create the sleep dichotomous variable using subvariables: sleep apnea and insomnia</p>
+<div id="d961b093" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> has_sleep_issue(row):</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize a list to store the status of each condition</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    conditions <span class="op">=</span> [row[<span class="st">&#39;APNEA&#39;</span>], row[<span class="st">&#39;INSOMN&#39;</span>]]</span>
@@ -5014,7 +5017,8 @@ Optimal MoCA cutoff: 23.0</code></pre>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the function to create a new column</span></span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>HasSleepIssue <span class="op">=</span> nacc_df.<span class="bu">apply</span>(has_sleep_issue, axis<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="e42dd6e6" class="cell" data-execution_count="20">
+<p>Display a demographics table, including as well the sleep and cardiovascular disease variables</p>
+<div id="a269960b" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>df_full_cvd_analysis <span class="op">=</span> nacc_df.copy()</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Here we are using the calculated SRI score derived from the combination of the cognitive scores from MoCA and MMSE</span></span>
@@ -5263,7 +5267,16 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </table>
 </div>
 </div>
-<div id="1bbd96fa" class="cell" data-execution_count="21">
+</section>
+<section id="week-four" class="level2">
+<h2 class="anchored" data-anchor-id="week-four">Week Four</h2>
+<section id="statistical-analysis---mcnemar-test" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-analysis---mcnemar-test">Statistical Analysis - McNemar test</h3>
+<p>Running McNemar test to determine relationships between our three variables</p>
+<ol type="1">
+<li>We first start by displaying a contingency table comparing each variable to another variable</li>
+</ol>
+<div id="d7a535da" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> statsmodels.stats.contingency_tables <span class="im">import</span> mcnemar</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> IPython.display <span class="im">import</span> display</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5513,7 +5526,10 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </div>
-<div id="e686be73" class="cell" data-execution_count="22">
+<ol start="2" type="1">
+<li>We now conduct the McNemar test, and output the statistical significance of each relationship</li>
+</ol>
+<div id="9749f6e9" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Conducting McNemar&#39;s Test</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="co"># McNemar&#39;s test requires a 2x2 contingency table as input</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5588,7 +5604,17 @@ Optimal MoCA cutoff: 23.0</code></pre>
 </div>
 </div>
 </div>
-<div id="840b78cc" class="cell" data-execution_count="23">
+</section>
+<section id="statistical-analysis---logistic-regression" class="level3">
+<h3 class="anchored" data-anchor-id="statistical-analysis---logistic-regression">Statistical Analysis - Logistic Regression</h3>
+<p>We run 6 different models for our logistical regression:</p>
+<p><em>Model 1</em>: tests whether or not there sleep problems is associated with MCI. Since the p-value is less than 0.05, we can see that there is not a relationship between MCI and sleep.</p>
+<p><em>Model 2</em> : tests whether or not the relationship between sleep and MCI is “moderated” by CVD.</p>
+<p><em>Model 3</em>: tests whether or not there is a relationship between CVD and sleep – the first step in assessing CVD as being a “confounder”.</p>
+<p><em>Model 4 and Model 5</em>: comparison is whether or not the model for prediction of MCI by sleep should be adjusted for CVD - here we will compare the prediction using the C-index (or AUC) to see whether or not adding CVD to the model improves the prediction.</p>
+<p><em>Model 6</em>: tests relatonship between cardiovascular disease and MCI adjusting for various demographic variables</p>
+<p>Since we find Model 1 to not be statistically significant, we narrow our focus to the most important models: Model 1, Model 4, and Model 6.</p>
+<div id="f9525f44" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5652,10 +5678,8 @@ Optimal MoCA cutoff: 23.0</code></pre>
 <pre><code>&#39;\ndf_stat_analysis2 = nacc_df.copy()\n\n# Here we are using the calculated SRI score derived from the combination of the cognitive scores from MoCA and MMSE\ndf_stat_analysis2[&quot;SRI&quot;] = impairment2\ndf_stat_analysis2[&quot;HasCardiovascularDisease&quot;] = HasCardiovascularDisease\ndf_stat_analysis2[&quot;HasSleepIssue&quot;] = HasSleepIssue\n\n\n\ndf_stat_analysis2 = df_stat_analysis2[(df_stat_analysis2[\&#39;SRI\&#39;] != \&#39;Unknown\&#39;) &amp; (df_stat_analysis2[\&#39;SRI\&#39;].notna()) &amp;\n                        (df_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;] != \&#39;Unknown\&#39;) &amp; (df_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;].notna()) &amp;\n                        (df_stat_analysis2[\&#39;HasSleepIssue\&#39;] != \&#39;Unknown\&#39;) &amp; (df_stat_analysis2[\&#39;HasSleepIssue\&#39;].notna())]\n\n\n\n\n\n\nprint(df_stat_analysis2[&quot;HasCardiovascularDisease&quot;].unique())\n\n#df_stat_analysis2[\&#39;SRI\&#39;] = df_stat_analysis2[\&#39;SRI\&#39;].map({\&#39;No\&#39;: 0, \&#39;Yes\&#39;: 1})\ndf_stat_analysis2[\&#39;SRI\&#39;] = df_stat_analysis2[\&#39;SRI\&#39;].map({\&#39;Yes\&#39;: 0, \&#39;No\&#39;: 1})\n\n\n# df_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;] = df_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;].map({\&#39;No\&#39;: 0, \&#39;Yes\&#39;: 1})\n# df_stat_analysis2[\&#39;HasSleepIssue\&#39;] = df_stat_analysis2[\&#39;HasSleepIssue\&#39;].map({\&#39;No\&#39;: 0, \&#39;Yes\&#39;: 1})\n\n\n# Model 1: Simple logistic regression of impairment on sleep_problems\nmodel1 = smf.logit(&quot;SRI ~ C(HasSleepIssue)&quot;, data=df_stat_analysis2).fit()\nprint(model1.summary())\n\n\n# Model 2: Interaction between cvd_all and sleep_problems\nmodel2 = smf.logit(&quot;SRI ~ C(HasCardiovascularDisease) * C(HasSleepIssue)&quot;, data=df_stat_analysis2).fit()\nprint(model2.summary())\n\ndf_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;] = df_stat_analysis2[\&#39;HasCardiovascularDisease\&#39;].map({\&#39;No\&#39;: 0, \&#39;Yes\&#39;: 1})\n\n# Model 3: Logistic regression of cvd_all on sleep_problems\nmodel3 = smf.logit(&quot;HasCardiovascularDisease ~ C(HasSleepIssue)&quot;, data=df_stat_analysis2).fit()\nprint(model3.summary())\n\n# Model 4: Adding cvd_all as a covariate\nmodel4 = smf.logit(&quot;SRI ~ C(HasCardiovascularDisease) + C(HasSleepIssue)&quot;, data=df_stat_analysis2).fit()\nprint(model4.summary())\n\n# Model 5: Same as model 1, usually for comparison, can be skipped in actual code as it\&#39;s a duplicate\nmodel5 = model1  # Reusing the first model as it\&#39;s the same\n\n# Model 6: Adding AGE and education (assuming \&#39;PTEDUCAT\&#39; stands for education)\nmodel6 = smf.logit(&quot;SRI ~ C(HasSleepIssue) + NACCAGE + EDUC&quot;, data=df_stat_analysis2).fit()\nprint(model6.summary())\n\n&#39;</code></pre>
 </div>
 </div>
-</section>
-<section id="adjustednewest" class="level1">
-<h1>Adjusted/NEWEST</h1>
-<div id="be49639d" class="cell" data-execution_count="24">
+<p>We re-run our logistic regression models excluding the sleep variable from the three models</p>
+<div id="72b3e9ff" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -5713,8 +5737,8 @@ Optimization terminated successfully.
 Dep. Variable:                    SRI   No. Observations:                11048
 Model:                          Logit   Df Residuals:                    11046
 Method:                           MLE   Df Model:                            1
-Date:                Wed, 17 Jul 2024   Pseudo R-squ.:               8.795e-05
-Time:                        12:01:23   Log-Likelihood:                -7346.5
+Date:                Thu, 18 Jul 2024   Pseudo R-squ.:               8.795e-05
+Time:                        14:55:13   Log-Likelihood:                -7346.5
 converged:                       True   LL-Null:                       -7347.1
 Covariance Type:            nonrobust   LLR p-value:                    0.2556
 ===========================================================================================
@@ -5731,8 +5755,8 @@ Optimization terminated successfully.
 Dep. Variable:                    SRI   No. Observations:                11048
 Model:                          Logit   Df Residuals:                    11046
 Method:                           MLE   Df Model:                            1
-Date:                Wed, 17 Jul 2024   Pseudo R-squ.:                0.007303
-Time:                        12:01:23   Log-Likelihood:                -7293.5
+Date:                Thu, 18 Jul 2024   Pseudo R-squ.:                0.007303
+Time:                        14:55:13   Log-Likelihood:                -7293.5
 converged:                       True   LL-Null:                       -7347.1
 Covariance Type:            nonrobust   LLR p-value:                 3.790e-25
 ====================================================================================================
@@ -5749,8 +5773,8 @@ Optimization terminated successfully.
 Dep. Variable:                    SRI   No. Observations:                11046
 Model:                          Logit   Df Residuals:                    11043
 Method:                           MLE   Df Model:                            2
-Date:                Wed, 17 Jul 2024   Pseudo R-squ.:                 0.06277
-Time:                        12:01:23   Log-Likelihood:                -6885.1
+Date:                Thu, 18 Jul 2024   Pseudo R-squ.:                 0.06277
+Time:                        14:55:13   Log-Likelihood:                -6885.1
 converged:                       True   LL-Null:                       -7346.2
 Covariance Type:            nonrobust   LLR p-value:                5.482e-201
 ==============================================================================
@@ -5762,54 +5786,27 @@ EDUC           0.1770      0.008     22.821      0.000       0.162       0.192
 ==============================================================================</code></pre>
 </div>
 </div>
-<div id="ca6e8ff5" class="cell" data-execution_count="25">
+<p>Display the results of our three most relevants models in a concise table</p>
+<div id="c2531d80" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> stargazer.stargazer <span class="im">import</span> Stargazer</span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Stargazer object</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a><span class="co">stargazer = Stargazer([model1, model2, model3, model4, model6])</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Stargazer object</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>stargazer <span class="op">=</span> Stargazer([model1, model4, model6])</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Stargazer (optional, customize as needed)</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a><span class="co">stargazer.custom_columns([&#39;Model 1&#39;, &#39;Model 2&#39;, &#39;Model 3&#39;, &#39;Model 4&#39;, &#39;Model 6&#39;], [1, 1, 1, 1, 1])</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Stargazer (optional, customize as needed)</span></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>stargazer.custom_columns([<span class="st">&#39;Model 1&#39;</span>, <span class="st">&#39;Model 2&#39;</span>, <span class="st">&#39;Model 3&#39;</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Render HTML (if using Jupyter) or export to text/latex as needed</span></span>
-<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a><span class="co">html_code = stargazer.render_html()</span></span>
-<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally save the HTML to a file</span></span>
-<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a><span class="co">with open(&quot;model_summaries.html&quot;, &quot;w&quot;) as file:</span></span>
-<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a><span class="co">    file.write(html_code)</span></span>
-<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="co">html_code</span></span>
-<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a><span class="co">&#39;&#39;&#39;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Render HTML (if using Jupyter) or export to text/latex as needed</span></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>html_code <span class="op">=</span> stargazer.render_html()</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally save the HTML to a file</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;model_summaries.html&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(html_code)</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>html_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
-<pre><code>&#39;\n\n# Create a Stargazer object\nstargazer = Stargazer([model1, model2, model3, model4, model6])\n\n\n# Configure Stargazer (optional, customize as needed)\nstargazer.custom_columns([\&#39;Model 1\&#39;, \&#39;Model 2\&#39;, \&#39;Model 3\&#39;, \&#39;Model 4\&#39;, \&#39;Model 6\&#39;], [1, 1, 1, 1, 1])\n\n\n# Render HTML (if using Jupyter) or export to text/latex as needed\nhtml_code = stargazer.render_html()\n\n# Optionally save the HTML to a file\nwith open(&quot;model_summaries.html&quot;, &quot;w&quot;) as file:\n    file.write(html_code)\n\nhtml_code\n&#39;</code></pre>
-</div>
-</div>
-</section>
-<section id="adjustednewest-1" class="level1">
-<h1>Adjusted/NEWEST</h1>
-<div id="a0771e15" class="cell" data-execution_count="26">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> stargazer.stargazer <span class="im">import</span> Stargazer</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a Stargazer object</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>stargazer <span class="op">=</span> Stargazer([model1, model4, model6])</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Configure Stargazer (optional, customize as needed)</span></span>
-<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>stargazer.custom_columns([<span class="st">&#39;Model 1&#39;</span>, <span class="st">&#39;Model 2&#39;</span>, <span class="st">&#39;Model 3&#39;</span>], [<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>])</span>
-<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Render HTML (if using Jupyter) or export to text/latex as needed</span></span>
-<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>html_code <span class="op">=</span> stargazer.render_html()</span>
-<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Optionally save the HTML to a file</span></span>
-<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">&quot;model_summaries.html&quot;</span>, <span class="st">&quot;w&quot;</span>) <span class="im">as</span> <span class="bu">file</span>:</span>
-<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>    <span class="bu">file</span>.write(html_code)</span>
-<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>html_code</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="26">
 <table style="text-align:center">
 <tbody><tr>
 <td colspan="4" style="border-bottom: 1px solid black">
@@ -6035,6 +6032,8 @@ Note:
 </tbody></table>
 </div>
 </div>
+</section>
+</section>
 </section>
 
 </main>
